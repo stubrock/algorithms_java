@@ -1,10 +1,6 @@
-package com.hotmail.brock_stuart.linkedlist;
-
-import java.util.Scanner;
+package com.hotmail.brock_stuart.doublylinkedlist;
 
 public class Node {
-	
-	private static int sz;
 	
 	protected int data;
 	protected Node prev;
@@ -14,14 +10,18 @@ public class Node {
 		data = 0;
 		prev = null;
 		next = null;
-		sz = 0;
+	}
+	
+	public Node(int data) {
+		this.data = data;
+		prev = null;
+		next = null;
 	}
 	
 	public Node(int data, Node prev, Node next) {
 		this.prev = prev;
 		this.next = next;
 		this.data = data;
-		sz++;
 	}
 	
 	public void setPrev(Node prev) {
@@ -44,7 +44,7 @@ public class Node {
 		return this.next;
 	}
 	
-	public int getInt() {
+	public int getData() {
 		return data;
 	}
 
