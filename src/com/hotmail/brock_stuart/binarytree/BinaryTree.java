@@ -40,6 +40,85 @@ public class BinaryTree {
         }
     }
     
+    public BinaryTreeNode getReplacementNode(BinaryTreeNode replaceNode) {
+        BinaryTreeNode replacementParent = replaceNode;
+        BinaryTreeNode replacement = replaceNode;
+        
+        BinaryTreeNode curNode = replaceNode.getRight();
+        
+        while (curNode != null) {
+            replacementParent = replacement;
+            replacement = curNode;
+            curNode = curNode.getLeft();
+        }
+        
+        if (replacement != replaceNode.getRight()) {
+            replacementParent.setLeft(replacement.getRight());
+            replacement.setRight(replaceNode.getRight());
+        }
+        return replacement;
+    }
+    
+    public boolean remove(int key) {
+        BinaryTreeNode curNode = root;
+        BinaryTreeNode parent = root;
+        
+        boolean isALeftChild = true;
+        
+        while (curNode.getKey() != key) {
+            parent = curNode;
+            
+            if (key < curNode.getKey()) {
+                isALeftChild = true;
+                curNode = curNode.getLeft();
+            } else {
+                isALeftChild = false;
+                curNode = curNode.getRight();
+            }
+            
+            if (curNode == null)
+                return false;
+        }
+        
+        if (curNode.getLeft() == null && curNode.getRight() == null) {
+            if (curNode == root) {
+                root = null;
+            } else if (isALeftChild) {
+                parent.setLeft(null);
+            } else {
+                parent.setRight(null);
+            }
+        } else if (curNode.getRight() == null) {
+            if (curNode == root) {
+                root = curNode.getRight();
+            } else if (isALeftChild) {
+                parent.setLeft(curNode.getLeft());
+            } else {
+                parent.setRight(curNode.getLeft());
+            }
+        } else if (curNode.getLeft() == null) {
+            if (curNode == root) {
+                root = curNode.getRight();
+            } else if (isALeftChild) {
+                parent.setLeft(curNode.getRight());
+            } else {
+                parent.setRight(curNode.getLeft());
+            }
+        } else {
+            BinaryTreeNode replacement = getReplacementNode(curNode);
+            
+            if (curNode == root) {
+                root = replacement;
+            } else if (isALeftChild) {
+                parent.setLeft(replacement);
+            } else {
+                parent.setRight(replacement);
+            }
+            replacement.setLeft(curNode.getLeft());
+        }
+        return true;
+    }
+    
     public BinaryTreeNode findNode(int key){
         BinaryTreeNode curNode = root;
 
